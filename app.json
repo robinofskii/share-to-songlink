@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "11132c21-0bc0-4e4f-944b-24eed96b5204"
+      }
+    },
+    "owner": "robinofski"
   }
 }

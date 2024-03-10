@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { api } from "../helpers/SonglinkApi";
 import { SonglinkApiResponse } from "../types";
-import { useExpoShare } from "./useExpoShare";
+import { useShare } from "./useExpoShare";
 
 type fetchDataParamsT = {
   platformLink: string;
@@ -14,7 +14,7 @@ type useSonglinkApiT = {
 };
 
 export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
-  const { share } = useExpoShare();
+  const { share } = useShare();
 
   const [data, setData] = useState<SonglinkApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -25,15 +25,13 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
     userCountry,
     songIfSingle = true,
   }: fetchDataParamsT) => {
+    setLoading(true);
     api
       .get(`/links`, {
         params: {
           url: platformLink,
           songIfSingle: songIfSingle,
           userCountry: userCountry,
-        },
-        headers: {
-          timeout: 10000,
         },
       })
       .then((response) => {
@@ -50,6 +48,13 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
       });
   };
 
+  const retry = (url: string = songUrl) => {
+    if (url) {
+      fetchData({ platformLink: songUrl });
+    }
+    setError(null);
+  };
+
   useMemo(() => {
     if (songUrl) {
       fetchData({ platformLink: songUrl });
@@ -62,5 +67,5 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
     setError(null);
   };
 
-  return { data, loading, error, fetchData, reset };
+  return { data, loading, error, fetchData, reset, retry };
 };

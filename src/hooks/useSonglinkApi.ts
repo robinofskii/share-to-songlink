@@ -25,6 +25,7 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
     userCountry,
     songIfSingle = true,
   }: fetchDataParamsT) => {
+    setLoading(true);
     api
       .get(`/links`, {
         params: {
@@ -50,6 +51,13 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
       });
   };
 
+  const retry = (url: string = songUrl) => {
+    if (url) {
+      fetchData({ platformLink: songUrl });
+    }
+    setError(null);
+  };
+
   useMemo(() => {
     if (songUrl) {
       fetchData({ platformLink: songUrl });
@@ -62,5 +70,5 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
     setError(null);
   };
 
-  return { data, loading, error, fetchData, reset };
+  return { data, loading, error, fetchData, reset, retry };
 };

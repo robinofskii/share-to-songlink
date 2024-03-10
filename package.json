@@ -6,14 +6,18 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "postinstall": "patch-package"
   },
   "dependencies": {
     "@expo/html-elements": "^0.9.1",
     "axios": "^1.6.7",
     "expo": "~50.0.11",
+    "expo-dev-client": "~3.3.9",
     "expo-linking": "^6.2.2",
+    "expo-share-intent": "^1.0.1",
     "expo-status-bar": "~1.11.1",
+    "patch-package": "^8.0.0",
     "react": "18.2.0",
     "react-native": "0.73.4"
   },

@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useSonglinkApi } from "./src/hooks/";
 import { DataView } from "./src/components/DataView/DataView";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 
 export default function App() {
@@ -29,6 +29,8 @@ export default function App() {
       ) : (
         <Text>Share a song URL to get started</Text>
       )}
+
+      {loading && <Text>Loading...</Text>}
       {error && (
         <>
           <Text>Error: {error.message}</Text>

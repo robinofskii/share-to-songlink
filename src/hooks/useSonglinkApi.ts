@@ -10,10 +10,10 @@ type fetchDataParamsT = {
 };
 
 type useSonglinkApiT = {
-  song: string;
+  songUrl: string;
 };
 
-export const useSonglinkApi = ({ song }: useSonglinkApiT) => {
+export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
   const { share } = useExpoShare();
 
   const [data, setData] = useState<SonglinkApiResponse | null>(null);
@@ -51,10 +51,10 @@ export const useSonglinkApi = ({ song }: useSonglinkApiT) => {
   };
 
   useMemo(() => {
-    if (song) {
-      fetchData({ platformLink: song });
+    if (songUrl) {
+      fetchData({ platformLink: songUrl });
     }
-  }, [song]);
+  }, [songUrl]);
 
   const reset = () => {
     setData(null);

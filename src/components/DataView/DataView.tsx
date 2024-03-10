@@ -1,7 +1,5 @@
 import { View, Button, Text } from "react-native";
 import { SonglinkApiResponse } from "../../types";
-import { A } from "@expo/html-elements";
-import { shareAsync } from "expo-sharing";
 import { useExpoShare } from "../../hooks";
 
 interface Props {

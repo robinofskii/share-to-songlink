@@ -1,8 +1,8 @@
 import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useSonglinkApi } from "./src/hooks/";
-import DataView from "./src/components/DataView/DataView";
-import { useMemo, useRef, useState } from "react";
+import { DataView } from "./src/components/DataView/DataView";
+import { useMemo, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 
 export default function App() {
@@ -22,6 +22,8 @@ export default function App() {
 
   return (
     <View style={styles.container}>
+      {loading && <Text>Loading...</Text>}
+      {data && <DataView data={data} />}
       {data || error ? (
         <Button title="Reset" onPress={reset} />
       ) : (
@@ -35,7 +37,6 @@ export default function App() {
           <Button title="Retry" onPress={() => retry()} />
         </>
       )}
-      {data && <DataView data={data} />}
       <StatusBar style="auto" />
     </View>
   );

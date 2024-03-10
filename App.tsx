@@ -2,14 +2,14 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useSonglinkApi } from "./src/hooks/";
 import DataView from "./src/components/DataView/DataView";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 
 export default function App() {
   const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntent();
 
   const [songUrl, setSongUrl] = useState<string>("");
-  const { data, loading, error, reset } = useSonglinkApi({
+  const { data, loading, error, reset, retry } = useSonglinkApi({
     songUrl: songUrl,
   });
 
@@ -29,7 +29,12 @@ export default function App() {
       )}
 
       {loading && <Text>Loading...</Text>}
-      {error && <Text>Error: {error.message}</Text>}
+      {error && (
+        <>
+          <Text>Error: {error.message}</Text>
+          <Button title="Retry" onPress={() => retry()} />
+        </>
+      )}
       {data && <DataView data={data} />}
       <StatusBar style="auto" />
     </View>

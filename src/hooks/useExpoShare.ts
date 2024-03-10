@@ -1,7 +1,10 @@
 import { SharingOptions, isAvailableAsync, shareAsync } from "expo-sharing";
 import { useEffect } from "react";
+import { Platform, Share } from "react-native";
 
 export const useExpoShare = () => {
+  const devicePlatform = Platform.OS;
+
   useEffect(() => {
     isAvailableAsync()
       .then((isAvailable) => {
@@ -14,9 +17,15 @@ export const useExpoShare = () => {
       });
   });
   const share = async (message: string, options: SharingOptions = {}) => {
-    shareAsync(message, options).catch((error) => {
-      console.error("Error sharing", error);
+    // if (devicePlatform === "android") {
+    Share.share({
+      message,
     });
+    return;
+    // }
+    // shareAsync(message, options).catch((error) => {
+    //   console.error("Error sharing", error);
+    // });
   };
 
   return { share };

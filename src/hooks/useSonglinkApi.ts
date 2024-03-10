@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { api } from "../helpers/SonglinkApi";
 import { SonglinkApiResponse } from "../types";
+import { useExpoShare } from "./useExpoShare";
 
 type fetchDataParamsT = {
   platformLink: string;
@@ -9,10 +10,12 @@ type fetchDataParamsT = {
 };
 
 type useSonglinkApiT = {
-  song: string;
+  songUrl: string;
 };
 
-const useSonglinkApi = ({ song }: useSonglinkApiT) => {
+export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
+  const { share } = useExpoShare();
+
   const [data, setData] = useState<SonglinkApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<Error | null>(null);
@@ -35,6 +38,9 @@ const useSonglinkApi = ({ song }: useSonglinkApiT) => {
       })
       .then((response) => {
         setData(response.data);
+        share(response.data.pageUrl, {
+          dialogTitle: "Share this song",
+        });
       })
       .catch((error) => {
         setError(error);
@@ -45,10 +51,10 @@ const useSonglinkApi = ({ song }: useSonglinkApiT) => {
   };
 
   useMemo(() => {
-    if (song) {
-      fetchData({ platformLink: song });
+    if (songUrl) {
+      fetchData({ platformLink: songUrl });
     }
-  }, [song]);
+  }, [songUrl]);
 
   const reset = () => {
     setData(null);
@@ -58,5 +64,3 @@ const useSonglinkApi = ({ song }: useSonglinkApiT) => {
 
   return { data, loading, error, fetchData, reset };
 };
-
-export default useSonglinkApi;

@@ -6,16 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "plugins": [
-      "expo-share-intent",
-      {
-        "iosActivationRules": {
-          "NSExtensionActivationSupportsWebURLWithMaxCount": 1,
-          "NSExtensionActivationSupportsWebPageWithMaxCount": 1
-        },
-        "androidIntentFilters": ["text/*"]
-      }
-    ],
+    "plugins": ["expo-share-intent"],
     "scheme": "sts",
     "splash": {
       "image": "./assets/splash.png",

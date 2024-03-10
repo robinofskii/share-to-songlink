@@ -22,7 +22,11 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      {(data || error) && <Button title="Reset" onPress={reset} />}
+      {data || error ? (
+        <Button title="Reset" onPress={reset} />
+      ) : (
+        <Text>Share a song URL to get started</Text>
+      )}
 
       {loading && <Text>Loading...</Text>}
       {error && <Text>Error: {error.message}</Text>}

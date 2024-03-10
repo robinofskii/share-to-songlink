@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import useSonglinkApi from "./src/hooks/useSonglinkApi";
 import DataView from "./src/components/DataView/DataView";
-import React, { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 
 const TEST_URL =
@@ -11,7 +11,7 @@ const TEST_URL =
 export default function App() {
   const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntent();
 
-  const [song, setSong] = React.useState<string>("");
+  const [song, setSong] = useState<string>("");
   const { data, loading, error, fetchData, reset } = useSonglinkApi({ song });
 
   useMemo(() => {

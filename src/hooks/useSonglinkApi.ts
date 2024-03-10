@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { api } from "../helpers/SonglinkApi";
 import { SonglinkApiResponse } from "../types";
 
@@ -8,10 +8,14 @@ type fetchDataParamsT = {
   songIfSingle?: boolean;
 };
 
-const useSonglinkApi = () => {
+type useSonglinkApiT = {
+  song: string;
+};
+
+const useSonglinkApi = ({ song }: useSonglinkApiT) => {
   const [data, setData] = useState<SonglinkApiResponse | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchData = async ({
     platformLink,
@@ -25,6 +29,9 @@ const useSonglinkApi = () => {
           songIfSingle: songIfSingle,
           userCountry: userCountry,
         },
+        headers: {
+          timeout: 10000,
+        },
       })
       .then((response) => {
         setData(response.data);
@@ -36,6 +43,12 @@ const useSonglinkApi = () => {
         setLoading(false);
       });
   };
+
+  useMemo(() => {
+    if (song) {
+      fetchData({ platformLink: song });
+    }
+  }, [song]);
 
   const reset = () => {
     setData(null);

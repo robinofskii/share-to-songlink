@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
 import { SonglinkApiResponse } from "../../types";
-import { openURL } from "expo-linking";
 import { A } from "@expo/html-elements";
 
 interface Props {
@@ -15,14 +14,15 @@ const DataView = ({ data }: Props) => {
 
   return (
     <View>
-      {Object.entries(data.linksByPlatform).map(([platform, link]) => {
+      <A href={data.pageUrl}>Go to Songlink website</A>
+      {/* {Object.entries(data.linksByPlatform).map(([platform, link]) => {
         return (
           <View key={platform}>
             <Text>{platform}</Text>
             <A href={link.url}>{link.url}</A>
           </View>
         );
-      })}
+      })} */}
     </View>
   );
 };

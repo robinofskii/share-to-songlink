@@ -2,7 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import { Button, StyleSheet, Text, View } from "react-native";
 import { useSonglinkApi } from "./src/hooks/";
 import { DataView } from "./src/components/DataView/DataView";
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 
 export default function App() {

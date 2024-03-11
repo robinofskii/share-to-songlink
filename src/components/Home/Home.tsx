@@ -5,6 +5,7 @@ import { DataView } from "../DataView";
 import { useMemo, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const Home = () => {
   const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntent();
@@ -23,13 +24,13 @@ export const Home = () => {
 
   if (loading)
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <ActivityIndicator animating={true} size="large" />
-      </View>
+      </SafeAreaView>
     );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {data && (
         <>
           <DataView data={data} />
@@ -53,7 +54,7 @@ export const Home = () => {
         </>
       )}
       <StatusBar style="auto" />
-    </View>
+    </SafeAreaView>
   );
 };
 

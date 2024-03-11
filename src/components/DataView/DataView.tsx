@@ -1,6 +1,7 @@
-import { View, Button, Text, Linking, StyleSheet } from "react-native";
+import { View, Linking, StyleSheet } from "react-native";
 import { SonglinkApiResponse } from "../../types";
 import { useShare } from "../../hooks";
+import { Button, Text } from "react-native-paper";
 
 interface Props {
   data: SonglinkApiResponse | null;
@@ -8,37 +9,33 @@ interface Props {
 
 export const DataView = ({ data }: Props) => {
   const { share } = useShare();
+
   if (!data) {
     return null;
   }
 
   return (
     <View style={styles.container}>
-      <Text>
-        {data.entitiesByUniqueId[data.entityUniqueId].title} by{" "}
+      <Text variant="bodyLarge">
         {data.entitiesByUniqueId[data.entityUniqueId].artistName}
       </Text>
-      {/* <A href={data.pageUrl}>Go to Songlink website</A> */}
+      <Text variant="titleMedium">
+        {data.entitiesByUniqueId[data.entityUniqueId].title}
+      </Text>
       <View style={styles.buttonRow}>
         <Button
-          title="Share"
+          mode="contained"
+          icon={"share"}
           onPress={() => {
             share(data.pageUrl);
           }}
-        />
-        <Button
-          title="Go to Songlink website"
-          onPress={() => Linking.openURL(data.pageUrl)}
-        />
+        >
+          Share{" "}
+        </Button>
+        <Button onPress={() => Linking.openURL(data.pageUrl)}>
+          Go to Songlink website
+        </Button>
       </View>
-      {/* {Object.entries(data.linksByPlatform).map(([platform, link]) => {
-        return (
-          <View key={platform}>
-            <Text>{platform}</Text>
-            <A href={link.url}>{link.url}</A>
-          </View>
-        );
-      })} */}
     </View>
   );
 };
@@ -50,9 +47,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
-    gap: 10,
+    padding: 10,
+    borderRadius: 4,
   },
   buttonRow: {
+    marginTop: 10,
     display: "flex",
     flexDirection: "row",
     gap: 10,

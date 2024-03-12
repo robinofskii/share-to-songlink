@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { api } from "../helpers/SonglinkApi";
 import { SonglinkApiResponse } from "../types";
 import { useShare } from "./useExpoShare";
+import { sanatizePlatformShareString } from "../helpers";
 
 type fetchDataParamsT = {
   platformLink: string;
@@ -26,10 +27,18 @@ export const useSonglinkApi = ({ songUrl }: useSonglinkApiT) => {
     songIfSingle = true,
   }: fetchDataParamsT) => {
     setLoading(true);
+    const sanitizedShareString = sanatizePlatformShareString(platformLink);
+
+    if (!sanitizedShareString.isValid) {
+      setError(new Error("Invalid share string"));
+      setLoading(false);
+      return;
+    }
+
     api
       .get(`/links`, {
         params: {
-          url: platformLink,
+          url: sanitizedShareString.songUrl,
           songIfSingle: songIfSingle,
           userCountry: userCountry,
         },

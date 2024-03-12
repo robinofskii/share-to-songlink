@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { useShareIntent } from "expo-share-intent";
 import { ActivityIndicator, Button, Text } from "react-native-paper";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { sanatizePlatformShareString } from "../../helpers";
 
 export const Home = () => {
   const { hasShareIntent, shareIntent, resetShareIntent } = useShareIntent();
@@ -17,7 +18,16 @@ export const Home = () => {
 
   useMemo(() => {
     if (hasShareIntent && shareIntent.text && shareIntent.text !== songUrl) {
-      setSongUrl(shareIntent.text ?? "");
+      const sanitizedShareString = sanatizePlatformShareString(
+        shareIntent.text
+      );
+
+      if (!sanitizedShareString.isValid) {
+        resetShareIntent();
+        return;
+      }
+
+      setSongUrl(sanitizedShareString.songUrl);
       resetShareIntent();
     }
   }, [hasShareIntent, shareIntent, resetShareIntent]);

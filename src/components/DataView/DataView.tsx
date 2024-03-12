@@ -1,7 +1,7 @@
-import { View, Linking, StyleSheet } from "react-native";
+import { View, Linking, StyleSheet, Image } from "react-native";
 import { SonglinkApiResponse } from "../../types";
 import { useShare } from "../../hooks";
-import { Button, Text } from "react-native-paper";
+import { Button, Surface, Text } from "react-native-paper";
 
 interface Props {
   data: SonglinkApiResponse | null;
@@ -15,7 +15,13 @@ export const DataView = ({ data }: Props) => {
   }
 
   return (
-    <View style={styles.container}>
+    <Surface elevation={1} style={styles.container}>
+      <Image
+        source={{
+          uri: data.entitiesByUniqueId[data.entityUniqueId].thumbnailUrl,
+        }}
+        style={styles.coverImage}
+      />
       <Text variant="bodyLarge">
         {data.entitiesByUniqueId[data.entityUniqueId].artistName}
       </Text>
@@ -30,38 +36,35 @@ export const DataView = ({ data }: Props) => {
             share(data.pageUrl);
           }}
         >
-          Share{" "}
+          Share
         </Button>
         <Button onPress={() => Linking.openURL(data.pageUrl)}>
           Go to Songlink website
         </Button>
       </View>
-    </View>
+    </Surface>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     display: "flex",
-    flexDirection: "column",
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center",
     padding: 10,
-    borderRadius: 4,
+    borderRadius: 8,
+  },
+  coverImage: {
+    marginBottom: 10,
+    width: 100,
+    height: 100,
+    borderRadius: 8,
   },
   buttonRow: {
     marginTop: 10,
     display: "flex",
     flexDirection: "row",
     gap: 10,
-  },
-  primaryButton: {
-    backgroundColor: "#f0f",
-    borderRadius: 10,
-  },
-  secondaryButton: {
-    backgroundColor: "#0ff",
-    borderRadius: 10,
   },
 });
